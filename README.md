@@ -122,35 +122,35 @@ embedded-iot-hub/
 ### 1. Discrete Digital Filtering for Environmental Sensors
 To reject mechanical switch contact chatter and optical sensor noise, raw inputs are conditioned using a Discrete First-Order Exponential Low-Pass Filter:
 
-$$y_k = lpha x_k + (1 - lpha) y_{k-1}$$
+$$y_k = \alpha x_k + (1 - \alpha) y_{k-1}$$
 
-$$lpha = rac{\Delta t}{	au + \Delta t}$$
+$$\alpha = \frac{\Delta t}{\tau + \Delta t}$$
 
-where $\Delta t$ is the sampling interval and $	au$ is the system time constant. For Gaussian measurement noise $z_k$, state estimation follows the Discrete Kalman Filter:
+where $\Delta t$ is the sampling interval and $\tau$ is the system time constant. For Gaussian measurement noise $z_k$, state estimation follows the Discrete Kalman Filter:
 
-$$\mathbf{K}_k = \mathbf{P}_k^- \mathbf{H}^T \left(\mathbf{H} \mathbf{P}_k^- \mathbf{H}^T + \mathbf{R}ight)^{-1}$$
+$$\mathbf{K}_k = \mathbf{P}_k^- \mathbf{H}^T \left(\mathbf{H} \mathbf{P}_k^- \mathbf{H}^T + \mathbf{R}\right)^{-1}$$
 
-$$\hat{\mathbf{x}}_k = \hat{\mathbf{x}}_k^- + \mathbf{K}_k \left(\mathbf{z}_k - \mathbf{H} \hat{\mathbf{x}}_k^-ight)$$
+$$\hat{\mathbf{x}}_k = \hat{\mathbf{x}}_k^- + \mathbf{K}_k \left(\mathbf{z}_k - \mathbf{H} \hat{\mathbf{x}}_k^-\right)$$
 
 ### 2. Edge IoT Power Budgeting & Battery Life Estimation
 For autonomous or battery-backed edge hardware, total power consumption depends on the operating duty cycle:
 
-$$P_{	ext{avg}} = rac{T_{	ext{active}} P_{	ext{active}} + T_{	ext{sleep}} P_{	ext{sleep}}}{T_{	ext{cycle}}}$$
+$$P_{\text{avg}} = \frac{T_{\text{active}} P_{\text{active}} + T_{\text{sleep}} P_{\text{sleep}}}{T_{\text{cycle}}}$$
 
-Given nominal battery capacity $C_{	ext{Ah}}$ and operating voltage $V_{	ext{nominal}}$:
+Given nominal battery capacity $C_{\text{Ah}}$ and operating voltage $V_{\text{nominal}}$:
 
-$$E_{	ext{total}} = V_{	ext{nominal}} \cdot C_{	ext{Ah}} \cdot 3600 \quad 	ext{[Joules]}$$
+$$E_{\text{total}} = V_{\text{nominal}} \cdot C_{\text{Ah}} \cdot 3600 \quad \text{[Joules]}$$
 
-$$	ext{Lifespan}_{	ext{hours}} = rac{V_{	ext{nominal}} \cdot C_{	ext{Ah}} \cdot \eta_{	ext{conv}}}{P_{	ext{avg}}}$$
+$$\text{Lifespan}_{\text{hours}} = \frac{V_{\text{nominal}} \cdot C_{\text{Ah}} \cdot \eta_{\text{conv}}}{P_{\text{avg}}}$$
 
-where $\eta_{	ext{conv}} pprox 0.88$ represents DC-DC buck converter efficiency.
+where $\eta_{\text{conv}} \approx 0.88$ represents DC-DC buck converter efficiency.
 
 ### 3. Truncated Binary Exponential Backoff with Jitter
 Resilient edge reconnect logic in network-constrained environments avoids synchronized thundering herd problems on WebSocket reconnect:
 
-$$t_{	ext{backoff}}(c) = \min\left(t_{\max}, \; t_0 \cdot 2^{\min(c, c_{\max})}ight) + \mathcal{U}(0, \delta)$$
+$$t_{\text{backoff}}(c) = \min\left(t_{\max}, \; t_0 \cdot 2^{\min(c, c_{\max})}\right) + \mathcal{U}(0, \delta)$$
 
-where $c$ is the consecutive disconnect count, $t_0 = 500	ext{ ms}$, and $\mathcal{U}(0, \delta)$ is uniform pseudorandom jitter.
+where $c$ is the consecutive disconnect count, $t_0 = 500\text{ ms}$, and $\mathcal{U}(0, \delta)$ is uniform pseudorandom jitter.
 
 ---
 
