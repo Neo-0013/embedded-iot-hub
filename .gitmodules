@@ -1,0 +1,3 @@
+[submodule "submodules/smart-door-system"]
+	path = submodules/smart-door-system
+	url = https://github.com/Neo-0013/smart-door-system.git
